@@ -1163,6 +1163,14 @@
   //#define LCD_SHOW_E_TOTAL
 #endif
 
+#if ENABLED(HAS_LVGL)
+  //Number of vertival line for lvgl buffer size (min 10 - default)
+  //#define LVGL_H_BUFFER_LINES 10
+
+  //Enable lvgl double buffer (double the buffer size, one for write while others is copied to screen)
+  //#define LVGL_DOUBLE_BUFFER
+#endif
+
 #if EITHER(SDSUPPORT, LCD_SET_PROGRESS_MANUALLY) && ANY(HAS_MARLINUI_U8GLIB, HAS_MARLINUI_HD44780, IS_TFTGLCD_PANEL, EXTENSIBLE_UI)
   //#define SHOW_REMAINING_TIME       // Display estimated time to completion
   #if ENABLED(SHOW_REMAINING_TIME)

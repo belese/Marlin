@@ -2383,6 +2383,27 @@
 //#define ANET_ET5_TFT35
 
 //
+// SDlDisplay (Linux and lvgl ui only)
+// Sdl depencies
+// apt-get install gcc-multilib g++-multilib libsdl2-dev
+//
+#define SDL_DISPLAY
+#if ENABLED(SDL_DISPLAY)
+  // Sdl display Resolution. Specify following options
+  #define TFT_WIDTH  480
+  #define TFT_HEIGHT 320
+
+  //Sdl input devices
+  #define INDEV_INPUT
+  #if ENABLED(INDEV_INPUT)
+  //Indev Input device. Specify following options
+    #define INDEV_MOUSE
+    #define INDEV_MOUSEWHEEL //act as a rotary encoder
+    #define INDEV_KEYBOARD
+  #endif
+#endif
+
+//
 // Generic TFT with detailed options
 //
 //#define TFT_GENERIC
