@@ -128,7 +128,7 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS_14_EFB
+  #define MOTHERBOARD BOARD_LINUX_RAMPS
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
@@ -2302,6 +2302,9 @@
 // Sources should be installed in 'src/lcd/extui'.
 //
 //#define EXTENSIBLE_UI
+
+//Test LVGL UI
+#define EXTUI_TESTLVGL
 
 #if ENABLED(EXTENSIBLE_UI)
   //#define EXTUI_LOCAL_BEEPER // Enables use of local Beeper pin with external display
