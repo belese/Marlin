@@ -1,27 +1,28 @@
-/*********************
- * example.cpp *
- *********************/
-
-/****************************************************************************
- *   Written By Marcio Teixeira 2018 - Aleph Objects, Inc.                  *
- *                                                                          *
- *   This program is free software: you can redistribute it and/or modify   *
- *   it under the terms of the GNU General Public License as published by   *
- *   the Free Software Foundation, either version 3 of the License, or      *
- *   (at your option) any later version.                                    *
- *                                                                          *
- *   This program is distributed in the hope that it will be useful,        *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of         *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
- *   GNU General Public License for more details.                           *
- *                                                                          *
- *   To view a copy of the GNU General Public License, go to the following  *
- *   location: <https://www.gnu.org/licenses/>.                             *
- ****************************************************************************/
+/**
+ * Marlin 3D Printer Firmware
+ * Copyright (c) 2021 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ *
+ * Based on Sprinter and grbl.
+ * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
 
 #include "../../inc/MarlinConfigPre.h"
 
-#if BOTH(EXTUI_TESTLVGL, EXTENSIBLE_UI)
+#if ENABLED(EXTUI_LVGL_TEST)
 
 #include "ui_api.h"
 
@@ -36,32 +37,31 @@
 // variables from Marlin, using the API here possibly
 // helps ensure future compatibility.
 
-static void btn_event_cb(lv_obj_t * btn, lv_event_t event)
-{
-    if(event == LV_EVENT_CLICKED) {
-        static uint8_t cnt = 0;
-        cnt++;
+static void btn_event_cb(lv_obj_t * btn, lv_event_t event) {
+  if (event == LV_EVENT_CLICKED) {
+    static uint8_t cnt = 0;
+    cnt++;
 
-        /*Get the first child of the button which is the label and change its text*/
-        lv_obj_t * label = lv_obj_get_child(btn, NULL);
-        lv_label_set_text_fmt(label, "Button: %d", cnt);
-    }
+    // Get the first child of the button which is the label and change its text
+    lv_obj_t * label = lv_obj_get_child(btn, NULL);
+    lv_label_set_text_fmt(label, "Button: %d", cnt);
+  }
 }
 
 namespace ExtUI {
+
   void onStartup() {
     lvgl_init();
-    lv_obj_t * btn = lv_btn_create(lv_scr_act(), NULL);     /*Add a button the current screen*/
-    lv_obj_set_pos(btn, 10, 10);                            /*Set its position*/
-    lv_obj_set_size(btn, 120, 50);                          /*Set its size*/
-    lv_obj_set_event_cb(btn, btn_event_cb);                 /*Assign a callback to the button*/
+    lv_obj_t * btn = lv_btn_create(lv_scr_act(), NULL);     // Add a button the current screen
+    lv_obj_set_pos(btn, 10, 10);                            // Set its position
+    lv_obj_set_size(btn, 120, 50);                          // Set its size
+    lv_obj_set_event_cb(btn, btn_event_cb);                 // Assign a callback to the button
 
-    lv_obj_t * label = lv_label_create(btn, NULL);          /*Add a label to the button*/
-    lv_label_set_text(label, "Button");                     /*Set the labels text*/
+    lv_obj_t * label = lv_label_create(btn, NULL);          // Add a label to the button
+    lv_label_set_text(label, "Button");                     // Set the labels text
   }
-  void onIdle() {
-    lv_task_handler();
-  }
+
+  void onIdle() { lv_task_handler(); }
 
   void onPrinterKilled(PGM_P const error, PGM_P const component) {}
   void onMediaInserted() {}
@@ -139,4 +139,4 @@ namespace ExtUI {
   void onSteppersEnabled()  {}
 }
 
-#endif // EXTUI_EXAMPLE && EXTENSIBLE_UI
+#endif // EXTUI_LVGL_TEST

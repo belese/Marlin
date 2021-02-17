@@ -132,7 +132,7 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_LINUX_RAMPS
+  #define MOTHERBOARD BOARD_RAMPS_14_EFB
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
@@ -2321,12 +2321,12 @@
 //
 //#define EXTENSIBLE_UI
 
-//Test LVGL UI
-#define EXTUI_TESTLVGL
-
 #if ENABLED(EXTENSIBLE_UI)
   //#define EXTUI_LOCAL_BEEPER // Enables use of local Beeper pin with external display
 #endif
+
+// Test LVGL UI
+//#define EXTUI_LVGL_TEST
 
 //=============================================================================
 //=============================== Graphical TFTs ==============================
@@ -2404,24 +2404,18 @@
 //#define ANET_ET5_TFT35
 
 //
-// SDlDisplay (Linux and lvgl ui only)
-// Sdl depencies
-// apt-get install gcc-multilib g++-multilib libsdl2-dev
+// Simple DirectMedia Layer (SDL) Controller (Native / Simulator with LVGL UI only)
 //
-#define SDL_DISPLAY
-#if ENABLED(SDL_DISPLAY)
-  // Sdl display Resolution. Specify following options
+//#define SDL_CONTROLLER
+#if ENABLED(SDL_CONTROLLER)
+  // SDL Display Resolution
   #define TFT_WIDTH  480
   #define TFT_HEIGHT 320
 
-  //Sdl input devices
-  #define INDEV_INPUT
-  #if ENABLED(INDEV_INPUT)
-  //Indev Input device. Specify following options
-    #define INDEV_MOUSE
-    #define INDEV_MOUSEWHEEL //act as a rotary encoder
-    #define INDEV_KEYBOARD
-  #endif
+  // SDL Input Devices
+  #define SDL_MOUSE_INPUT
+  #define SDL_MOUSEWHEEL_ENCODER
+  #define SDL_KEYBOARD_INPUT
 #endif
 
 //

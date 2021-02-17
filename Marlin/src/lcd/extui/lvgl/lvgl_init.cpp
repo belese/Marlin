@@ -22,21 +22,20 @@
 #include "../../../inc/MarlinConfigPre.h"
 
 #if ENABLED(HAS_LVGL)
+
 #include "lvgl_init.h"
 #include "lv_drv_conf.h"
 
 #include <lvgl.h>
 
-
 #ifndef LVGL_H_BUFFER_LINES
   #define LVGL_H_BUFFER_LINES 10 // min 10
 #endif
 
-//reserve lvgl display buffer
+// Reserve LVGL display buffer
 static lv_color_t primary_display_buffer[LV_HOR_RES_MAX * LVGL_H_BUFFER_LINES];
-
-#ifdef LVGL_DOUBLE_BUFFER
-static lv_color_t secondary_display_buffer[LV_HOR_RES_MAX * LVGL_H_BUFFER_LINES];
+#if ENABLED(LVGL_DOUBLE_BUFFERING)
+  static lv_color_t secondary_display_buffer[LV_HOR_RES_MAX * LVGL_H_BUFFER_LINES];
 #endif
 
 static lv_disp_buf_t lv_disp_buf;
@@ -44,13 +43,9 @@ static lv_disp_buf_t lv_disp_buf;
 void lvgl_init() {
   lv_init();
 
-  #ifdef LVGL_DOUBLE_BUFFER
-    lv_disp_buf_init(&lv_disp_buf, primary_display_buffer, secondary_display_buffer, LV_HOR_RES_MAX * LVGL_H_BUFFER_LINES);
-  #else
-    lv_disp_buf_init(&lv_disp_buf, primary_display_buffer, NULL, LV_HOR_RES_MAX * LVGL_H_BUFFER_LINES);
-  #endif
+  lv_disp_buf_init(&lv_disp_buf, primary_display_buffer, TERN(LVGL_DOUBLE_BUFFERING, secondary_display_buffer, nullptr), LV_HOR_RES_MAX * LVGL_H_BUFFER_LINES);
 
-  //Init lvgl display driver
+  // Init LVGL display driver
   DISPLAY_INIT();
   lv_disp_drv_t disp_drv;
   lv_disp_drv_init(&disp_drv);
@@ -58,7 +53,7 @@ void lvgl_init() {
   disp_drv.buffer = &lv_disp_buf;
   lv_disp_drv_register(&disp_drv);
 
-  //Init lvgl touch input driver
+  // Init LVGL touch input driver
   #ifdef POINTER_READ
     #ifdef POINTER_INIT
       POINTER_INIT();
@@ -70,7 +65,7 @@ void lvgl_init() {
     lv_indev_drv_register(&indev_drv);
   #endif
 
-  //Init lvgl rotary input driver
+  // Init LVGL rotary input driver
   #ifdef ROTARY_READ
     #ifdef ROTARY_INIT
       ROTARY_INIT();
@@ -82,7 +77,7 @@ void lvgl_init() {
     lv_indev_drv_register(&enc_drv);
   #endif
 
-  //Init lvgl keyboard input driver
+  // Init LVGL keyboard input driver
   #ifdef KEYBOARD_READ
     #ifdef KEYBOARD_INIT
       KEYBOARD_INIT();
@@ -94,4 +89,5 @@ void lvgl_init() {
     lv_indev_drv_register(&kbd_drv);
   #endif
 }
-#endif //ENABLED(HAS_LVGL)
+
+#endif // HAS_LVGL

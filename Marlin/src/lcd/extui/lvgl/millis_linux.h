@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2021 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -21,17 +21,13 @@
  */
 #pragma once
 
-#include "../../../inc/MarlinConfigPre.h"
-
 #include <time.h>
+#include <stdint.h>
 
-
-//Linux has a Millis Function in HAL, but i can't manage to make it work, as it want to include Adruino.h
-//Redefine temporary a millis function for linux
-
+// Linux has a millis() function in the HAL, but it won't work because it wants to include <Arduino.h>.
+// Redefine temporary a millis function for Linux
 uint32_t millis() {
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC, &ts );
-    return ( ts.tv_sec * 1000 + ts.tv_nsec / 1000000L );
+  struct timespec ts;
+  clock_gettime(CLOCK_MONOTONIC, &ts);
+  return (ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
 }
-

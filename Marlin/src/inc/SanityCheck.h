@@ -730,10 +730,14 @@ static_assert(Y_MAX_LENGTH >= Y_BED_SIZE, "Movement bounds (Y_MIN_POS, Y_MAX_POS
 #endif
 
 /**
- *  Sdl Display
+ * Simple DirectMedia Layer (SDL) Display
  */
-#if ENABLED(HAS_SDL_DISPLAY) && !ENABLED(HAS_LVGL)
-  #error "SDL Display require UI with lvgl support."
+#if ENABLED(HAS_SDL_DISPLAY) && DISABLED(HAS_LVGL)
+  #error "SDL Display requires a UI with LVGL support."
+#endif
+
+#if defined(LVGL_H_BUFFER_LINES) && LVGL_H_BUFFER_LINES < 10
+  #error "LVGL_H_BUFFER_LINES must be set to a value of 10 or larger."
 #endif
 
 /**
@@ -2354,7 +2358,8 @@ static_assert(hbm[Z_AXIS] >= 0, "HOMING_BUMP_MM.Z must be greater than or equal 
   + ENABLED(ULTIPANEL) \
   + ENABLED(ULTRA_LCD) \
   + ENABLED(YHCB2004) \
-  + ENABLED(ZONESTAR_LCD)
+  + ENABLED(ZONESTAR_LCD) \
+  + ENABLED(SDL_CONTROLLER)
   #error "Please select only one LCD controller option."
 #endif
 
